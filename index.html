@@ -1,1 +1,61 @@
-this is index
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title> API </title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body id="body">
+	<h1 class="header"> Tónlistar Gaman</h1>
+</body>
+<script type="text/javascript" src="js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	var daobject;
+	$.ajax({
+	  'url': 'http://apis.is/concerts',
+	  'type': 'GET',
+	  'dataType': 'json',
+	  'success': function(response) {
+	    for (var i = 0; i < response.results.length; i++) {
+	    	if (i == 0) {
+	    		var dadiv = document.createElement("div");
+	    		dadiv.className = "row";
+	    		dadiv.id = "row";
+	    		document.getElementById("body").appendChild(dadiv);
+	    	} else if ((i) % 3 == 0){
+	    		var dadiv = document.createElement("div");
+	    		dadiv.className = "row";
+	    		dadiv.id = "row";
+	    		document.getElementById("body").appendChild(dadiv);
+	    	}
+	    	var divs = document.getElementsByClassName("row");
+	    	var thediv = divs[divs.length - 1];
+	    	var col = document.createElement("div");
+	    	col.className = "col-md-4 colstuff";
+	    	var h1 = document.createElement("h1");
+	    	h1.innerHTML = response.results[i].name;
+	    	h1.className = "smallheader";
+	    	col.appendChild(h1);
+	    	var h12 = document.createElement("h1");
+	    	h12.innerHTML = response.results[i].eventDateName;
+	    	h12.className = "smallinfo";
+	    	col.appendChild(h12);
+	    	var img = document.createElement("img");
+	    	img.src = response.results[i].imageSource;
+	    	img.onerror = function () {
+			  this.src = "img/notFound.png";
+			};
+	    	img.className = "img";
+	    	col.appendChild(img);
+	    	var h13 = document.createElement("h1");
+	    	h13.innerHTML = response.results[i].eventHallName;
+	    	h13.className = "smallinfo";
+	    	col.appendChild(h13);
+	    	thediv.appendChild(col);
+	    };
+	   }
+	});
+</script>
+</html>
